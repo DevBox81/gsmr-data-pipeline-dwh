@@ -4,7 +4,7 @@
 
 ### Objectif Global
 
-> Mettre en place un **pipeline de données automatisé** et un **data warehouse** destiné au suivi et à l'optimisation du réseau GSM-R.
+Mettre en place un **pipeline de données automatisé** et un **data warehouse** destiné au suivi et à l'optimisation du réseau GSM-R.
 
 ### Objectifs Détaillés
 
