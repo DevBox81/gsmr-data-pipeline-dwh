@@ -1,5 +1,3 @@
----
-
 ## Objectifs du Projet
 
 ### Objectif Global
