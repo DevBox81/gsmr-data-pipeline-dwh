@@ -1,8 +1,8 @@
 /*
 this code should run before the ingestion, it creates expandium and sharepoint tables
 */
-
-CREATE TABLE bronze.exp_etcs_calls (
+DROP TABLE IF EXISTS bronze.exp_etcs_calls;
+CREATE TABLE bronze.exp_etcs_calls(
     start_time TIMESTAMP DEFAULT NOW(),
     stop_time VARCHAR(50),
     call_setup_duration VARCHAR(50),
@@ -31,7 +31,8 @@ CREATE TABLE bronze.exp_etcs_calls (
     isdn_port_probe VARCHAR(255)
 );
 
-CREATE TABLE bronze.exp_hdlc_frame_errors (
+DROP TABLE IF EXISTS bronze.exp_hdlc_frame_errors;
+CREATE TABLE bronze.exp_hdlc_frame_errors(
     start_time TIMESTAMP DEFAULT NOW(),
     stop_time TIMESTAMP,
     frame_error_time TIMESTAMP,
@@ -49,7 +50,8 @@ CREATE TABLE bronze.exp_hdlc_frame_errors (
     frame_error_retransmission_count INT
 );
 
-CREATE TABLE bronze.exp_subscriber_matrix (
+DROP TABLE IF EXISTS bronze.exp_subscriber_matrix;
+CREATE TABLE bronze.exp_subscriber_matrix(
     imsi BIGINT,
     last_imsi_time TIMESTAMP,
     msisdn BIGINT,
@@ -62,7 +64,8 @@ CREATE TABLE bronze.exp_subscriber_matrix (
     last_fn_ct4_time TIMESTAMP
 );
 
-CREATE TABLE bronze.exp_ho_tracing (
+DROP TABLE IF EXISTS bronze.exp_ho_tracing;
+CREATE TABLE bronze.exp_ho_tracing(
     start_time TIMESTAMP DEFAULT NOW(),
     stop_time TIMESTAMP,
     ho_start_time TIMESTAMP,
@@ -82,7 +85,8 @@ CREATE TABLE bronze.exp_ho_tracing (
     ho_cause VARCHAR(100)
 );
 
-CREATE TABLE bronze.exp_vgcs_vbs_rec_tracing (
+DROP TABLE IF EXISTS bronze.exp_vgcs_vbs_rec_tracing;
+CREATE TABLE bronze.exp_vgcs_vbs_rec_tracing(
     start_time TIMESTAMP DEFAULT NOW(),
     stop_time TIMESTAMP,
     application_type VARCHAR(100),
@@ -106,7 +110,8 @@ CREATE TABLE bronze.exp_vgcs_vbs_rec_tracing (
     vgcs_duration VARCHAR(50)
 );
 
-CREATE TABLE bronze.exp_transaction_tracing (
+DROP TABLE IF EXISTS bronze.exp_transaction_tracing;
+CREATE TABLE bronze.exp_transaction_tracing(
     start_time TIMESTAMP DEFAULT NOW(),
     stop_time TIMESTAMP,
     call_setup_duration VARCHAR(50),
@@ -141,7 +146,8 @@ CREATE TABLE bronze.exp_transaction_tracing (
     gb_ciphering_algo VARCHAR(50)
 );
 
-CREATE TABLE bronze.sp_ertms_disconnects (
+DROP TABLE IF EXISTS bronze.sp_ertms_disconnects;
+CREATE TABLE bronze.sp_ertms_disconnects(
     nombre_ordre INT,
     derniere_7_jours BOOLEAN,
     date DATE,
