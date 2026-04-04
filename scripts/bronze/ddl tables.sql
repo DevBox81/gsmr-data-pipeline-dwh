@@ -1,6 +1,9 @@
 /*
-this code should run before the ingestion, it creates expandium and sharepoint tables
+this code should run before the ingestion, it creates expandium and sharepoint tables, and ingestion track tables (ingest_files and ingest_runs) that helps on
+tracking the runs with it's primary key, time of start and end, status, and how many rows, and tracking files with there primary key, the id of the run that means
+which runs they were in, source syteme (like expandium or sharepoint), processed at, row counts and it status
 */
+
 DROP TABLE IF EXISTS bronze.exp_etcs_calls;
 CREATE TABLE bronze.exp_etcs_calls(
     start_time TIMESTAMP DEFAULT NOW(),
@@ -172,4 +175,27 @@ CREATE TABLE bronze.sp_ertms_disconnects(
     ecart VARCHAR(50),
     retransmission_trames_hdlc_t70 VARCHAR(100),
     traite_par VARCHAR(100),
+);
+
+DROP TABLE IF EXISTS bronze.ingest_runs;
+CREATE TABLE bronze.ingest_runs(
+	batch_id VARCHAR(100) PRIMARY KEY,
+	start_time TIMESTAMP WITHOUT TIME ZONE,
+	end_time TIMESTAMP WITHOUT TIME ZONE,
+	status VARCHAR(100),
+	total_files INT,
+	total_rows INT,
+	error_message TEXT
+);
+
+DROP TABLE IF EXISTS bronze.ingest_files;
+CREATE TABLE bronze.ingest_files(
+	file_id INT PRIMARY KEY,
+	batch_id VARCHAR(100) REFERENCES bronze.ingest_runs(batch_id),
+	source_system VARCHAR(100),
+	processed_at TIMESTAMP WITHOUT TIME ZONE,
+	filename VARCHAR(255),
+	row_count INT,
+	status VARCHAR(100),
+	error_message TEXT
 );
