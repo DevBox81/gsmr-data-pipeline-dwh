@@ -149,7 +149,7 @@ CREATE TABLE bronze.exp_transaction_tracing(
     gb_ciphering_algo VARCHAR(50)
 );
 
-DROP TABLE IF EXISTS bronze.sp_ertms_disconnects;
+DROP TABLE IF EXISTS bronze.sp_ertms_deconnixions;
 CREATE TABLE bronze.sp_ertms_disconnects(
     nombre_ordre INT,
     derniere_7_jours BOOLEAN,
