@@ -174,7 +174,7 @@ CREATE TABLE bronze.sp_ertms_disconnects(
     com_dte_dce VARCHAR(50),
     ecart VARCHAR(50),
     retransmission_trames_hdlc_t70 VARCHAR(100),
-    traite_par VARCHAR(100),
+    traite_par VARCHAR(100)
 );
 
 DROP TABLE IF EXISTS bronze.ingest_runs;
