@@ -1,3 +1,7 @@
+/"""
+this file define the functions used commenly in the sharepoint and expandium ingestions
+"""/
+
 from datetime import datetime
 import secrets
 from get_db_engine import get_engine
