@@ -1,5 +1,5 @@
 /*
-this code should run before the ingestion, it creates expandium and sharepoint tables, and ingestion track tables (ingest_files and ingest_runs) that helps on
+this code should run before the ingestion, it creates expandium and sharepoint tables and adding meta data for tracking, and ingestion track tables (ingest_files and ingest_runs) that helps on
 tracking the runs with it's primary key, time of start and end, status, and how many rows, and tracking files with there primary key, the id of the run that means
 which runs they were in, source syteme (like expandium or sharepoint), processed at, row counts and it status
 */
@@ -31,7 +31,12 @@ CREATE TABLE bronze.exp_etcs_calls(
     protocol_layer VARCHAR(50),
     end_event VARCHAR(255),
     end_cause VARCHAR(255),
-    isdn_port_probe VARCHAR(255)
+    isdn_port_probe VARCHAR(255),
+	_batch_id TEXT REFERENCES bronze.ingest_runs(batch_id),  
+	_source_file TEXT,
+    _ingested_at TIMESTAMP,
+    _row_num INT,
+    _file_hash TEXT
 );
 
 DROP TABLE IF EXISTS bronze.exp_hdlc_frame_errors;
@@ -50,7 +55,12 @@ CREATE TABLE bronze.exp_hdlc_frame_errors(
     m_mode VARCHAR(50),
     direction VARCHAR(50),
     frame_error VARCHAR(100),
-    frame_error_retransmission_count INT
+    frame_error_retransmission_count INT,
+	_batch_id TEXT REFERENCES bronze.ingest_runs(batch_id),  
+	_source_file TEXT,
+    _ingested_at TIMESTAMP,
+    _row_num INT,
+    _file_hash TEXT
 );
 
 DROP TABLE IF EXISTS bronze.exp_subscriber_matrix;
@@ -64,7 +74,12 @@ CREATE TABLE bronze.exp_subscriber_matrix(
     fn_ct3 BIGINT,
     last_fn_ct3_time TIMESTAMP,
     fn_ct4 BIGINT,
-    last_fn_ct4_time TIMESTAMP
+    last_fn_ct4_time TIMESTAMP,
+	_batch_id TEXT REFERENCES bronze.ingest_runs(batch_id),  
+	_source_file TEXT,
+    _ingested_at TIMESTAMP,
+    _row_num INT,
+    _file_hash TEXT
 );
 
 DROP TABLE IF EXISTS bronze.exp_ho_tracing;
@@ -85,7 +100,12 @@ CREATE TABLE bronze.exp_ho_tracing(
     ho_type VARCHAR(50),
     ho_end_event VARCHAR(100),
     ho_end_cause VARCHAR(100),
-    ho_cause VARCHAR(100)
+    ho_cause VARCHAR(100),
+	_batch_id TEXT REFERENCES bronze.ingest_runs(batch_id),  
+	_source_file TEXT,
+    _ingested_at TIMESTAMP,
+    _row_num INT,
+    _file_hash TEXT
 );
 
 DROP TABLE IF EXISTS bronze.exp_vgcs_vbs_rec_tracing;
@@ -110,7 +130,12 @@ CREATE TABLE bronze.exp_vgcs_vbs_rec_tracing(
     cell_success_rate VARCHAR(20),
     dispatcher_success_rate VARCHAR(20),
     end_user VARCHAR(100),
-    vgcs_duration VARCHAR(50)
+    vgcs_duration VARCHAR(50),
+	_batch_id TEXT REFERENCES bronze.ingest_runs(batch_id),  
+	_source_file TEXT,
+    _ingested_at TIMESTAMP,
+    _row_num INT,
+    _file_hash TEXT
 );
 
 DROP TABLE IF EXISTS bronze.exp_transaction_tracing;
@@ -146,35 +171,55 @@ CREATE TABLE bronze.exp_transaction_tracing(
     protocol_layer VARCHAR(50),
     end_event VARCHAR(255),
     end_cause VARCHAR(255),
-    gb_ciphering_algo VARCHAR(50)
+    gb_ciphering_algo VARCHAR(50),
+	_batch_id TEXT REFERENCES bronze.ingest_runs(batch_id),  
+	_source_file TEXT,
+    _ingested_at TIMESTAMP,
+    _row_num INT,
+    _file_hash TEXT
 );
 
 DROP TABLE IF EXISTS bronze.sp_ertms_deconnixions;
-CREATE TABLE bronze.sp_ertms_disconnects(
+CREATE TABLE bronze.sp_ertms_disconnects (
     nombre_ordre INT,
     derniere_7_jours BOOLEAN,
     date DATE,
-    heure VARCHAR(20),
-    nomber_train INT,
+    heure TIME,
+    numero_train INT,
     rame VARCHAR(50),
     motrice_cab VARCHAR(50),
     mrm VARCHAR(50),
+    imei BIGINT,
     sens VARCHAR(50),
     km VARCHAR(50),
     intervalle VARCHAR(100),
-    niveau_etcs SMALLINT,
+    niveau_etcs VARCHAR(20),
     evenement VARCHAR(255),
-    cause_racine VARCHAR(255),
-    sous_systeme_mis_en_cas VARCHAR(255),
+    cause_racine TEXT,
+    analyse_smmrgv TEXT,
+    sous_systeme_mis_en_cause VARCHAR(255),
     action TEXT,
-    execution_ho VARCHAR(50),
-    rxqual VARCHAR(20),
-    rxlev VARCHAR(20),
-    voisinage_10s VARCHAR(100),
+    execution_ho VARCHAR(255),
+    rxqual VARCHAR(50),
+    rxlev VARCHAR(50),
+    voisinage_10sec VARCHAR(100),
     com_dte_dce VARCHAR(50),
     ecart VARCHAR(50),
     retransmission_trames_hdlc_t70 VARCHAR(100),
-    traite_par VARCHAR(100)
+    alarmes_bts VARCHAR(255),
+    traite_par VARCHAR(100),
+    cire VARCHAR(100),
+    ciers VARCHAR(100),
+    acquittement_auc VARCHAR(100),
+    bug_rbc VARCHAR(100),
+    liens_pai VARCHAR(255),
+    pilote VARCHAR(100),
+    echeance DATE,
+	_batch_id TEXT REFERENCES bronze.ingest_runs(batch_id),  
+	_source_file TEXT,
+    _ingested_at TIMESTAMP,
+    _row_num INT,
+    _file_hash TEXT
 );
 
 DROP TABLE IF EXISTS bronze.ingest_runs;
