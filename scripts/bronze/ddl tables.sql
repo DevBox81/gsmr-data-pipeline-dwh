@@ -5,7 +5,7 @@ which runs they were in, source syteme (like expandium or sharepoint), processed
 */
 
 DROP TABLE IF EXISTS bronze.exp_etcs_calls;
-CREATE TABLE bronze.exp_etcs_calls(
+CREATE TABLE bronze.exp_etcs_call(
     start_time TIMESTAMP DEFAULT NOW(),
     stop_time VARCHAR(50),
     call_setup_duration VARCHAR(50),
