@@ -4,7 +4,7 @@ tracking the runs with it's primary key, time of start and end, status, and how 
 which runs they were in, source syteme (like expandium or sharepoint), processed at, row counts and it status
 */
 
-DROP TABLE IF EXISTS bronze.exp_etcs_calls;
+DROP TABLE IF EXISTS bronze.exp_etcs_call;
 CREATE TABLE bronze.exp_etcs_call(
     start_time TIMESTAMP DEFAULT NOW(),
     stop_time VARCHAR(50),
@@ -12,7 +12,7 @@ CREATE TABLE bronze.exp_etcs_call(
     transaction_duration VARCHAR(50),                    
     etcs_baseline SMALLINT,
     system_version DECIMAL(3,1),
-    nid_engine INT NOT NULL,
+    nid_engine INT,
     nid_operational INT,
     imsi BIGINT,
     msisdn BIGINT,                         
@@ -141,7 +141,7 @@ CREATE TABLE bronze.exp_vgcs_vbs_rec_tracing(
 DROP TABLE IF EXISTS bronze.exp_transaction_tracing;
 CREATE TABLE bronze.exp_transaction_tracing(
     start_time TIMESTAMP DEFAULT NOW(),
-    stop_time TIMESTAMP,
+    stop_time VARCHAR(30),
     call_setup_duration VARCHAR(50),
     establishment_delay VARCHAR(50),
     transaction_duration VARCHAR(50),
@@ -179,7 +179,7 @@ CREATE TABLE bronze.exp_transaction_tracing(
     _file_hash TEXT
 );
 
-DROP TABLE IF EXISTS bronze.sp_ertms_deconnixions;
+DROP TABLE IF EXISTS bronze.sp_ertms_disconnects;
 CREATE TABLE bronze.sp_ertms_disconnects (
     nombre_ordre INT,
     derniere_7_jours BOOLEAN,
