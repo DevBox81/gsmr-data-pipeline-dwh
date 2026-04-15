@@ -13,7 +13,7 @@ def get_engine(schema) -> Engine:
     PORT = 5432
     NAME = "gsmr_dwh"
     USER = "postgres"
-    PASSWORD = 1330
+    PASSWORD = {your user password}
     SHCEMA = f"{schema}"
 
     url = f"postgresql+psycopg2://{USER}:{PASSWORD}@{HOST}:{PORT}/{NAME}"
