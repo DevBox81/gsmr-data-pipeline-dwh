@@ -4,6 +4,29 @@ tracking the runs with it's primary key, time of start and end, status, and how 
 which runs they were in, source syteme (like expandium or sharepoint), processed at, row counts and it status
 */
 
+DROP TABLE IF EXISTS bronze.ingest_runs;
+CREATE TABLE bronze.ingest_runs(
+	batch_id VARCHAR(100) PRIMARY KEY,
+	start_time TIMESTAMP WITHOUT TIME ZONE,
+	end_time TIMESTAMP WITHOUT TIME ZONE,
+	status VARCHAR(100),
+	total_files INT,
+	total_rows INT,
+	error_message TEXT
+);
+
+DROP TABLE IF EXISTS bronze.ingest_files;
+CREATE TABLE bronze.ingest_files(
+	file_id INT PRIMARY KEY,
+	batch_id VARCHAR(100) REFERENCES bronze.ingest_runs(batch_id),
+	source_system VARCHAR(100),
+	processed_at TIMESTAMP WITHOUT TIME ZONE,
+	filename VARCHAR(255),
+	row_count INT,
+	status VARCHAR(100),
+	error_message TEXT
+);
+
 DROP TABLE IF EXISTS bronze.exp_etcs_call;
 CREATE TABLE bronze.exp_etcs_call(
     start_time TIMESTAMP DEFAULT NOW(),
