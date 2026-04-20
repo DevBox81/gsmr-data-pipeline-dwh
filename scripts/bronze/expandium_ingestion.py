@@ -33,76 +33,42 @@ def auto_data_scraping():
     #login in
     wait.until(EC.presence_of_element_located(
         (By.CSS_SELECTOR, "input[placeholder='Username']")
-    )).send_keys("[your username]")
+    )).send_keys("Démo")
 
     wait.until(EC.presence_of_element_located(
         (By.CSS_SELECTOR, "input[placeholder='Password']")
-    )).send_keys("your password")
+    )).send_keys("Oncf2026@!")
 
     wait.until(EC.element_to_be_clickable(
         (By.CSS_SELECTOR, ".btn.btn-lg.btn-block.btn-success")
     )).click()
 
-    #getting the data
+    #clicking the tracking tab
     wait.until(EC.element_to_be_clickable(
         (By.CSS_SELECTOR, "[title='Tracing']")
     )).click()
 
-    #ETCS Calls
-    wait.until(EC.element_to_be_clickable(
-        (By.CSS_SELECTOR, "[title='ETCS Call tracing']")
-    )).click()
+    def click_tab_and_download(tab_title: str) -> None:
+        #this clicks a tab like etcs call tracing and waits for the loading then click the download csv
+        wait.until(EC.element_to_be_clickable(
+            (By.CSS_SELECTOR, f"[title='{tab_title}']")
+        )).click()
+        wait.until(EC.invisibility_of_element_located(
+            (By.CSS_SELECTOR, "div.table-component-loader")
+        ))
+        wait.until(EC.element_to_be_clickable(
+            (By.CSS_SELECTOR, "[title='Download in CSV format']")
+        )).click()
+ 
+    click_tab_and_download('ETCS Call tracing')
+    click_tab_and_download("Transaction tracing")
+    click_tab_and_download("VGCS / VBS / REC tracing")
+    click_tab_and_download("HO tracing")
+    click_tab_and_download("Subscriber Matrix")
+    click_tab_and_download("HDLC Frame Error tracing")
 
-    wait.until(EC.element_to_be_clickable(
-        (By.CSS_SELECTOR, "[title='Download in CSV format']")
-    )).click()
 
-    #Transaction
-    wait.until(EC.element_to_be_clickable(
-        (By.CSS_SELECTOR, "[title='Transaction tracing']")
-    )).click()
-
-    wait.until(EC.element_to_be_clickable(
-        (By.CSS_SELECTOR, "[title='Download in CSV format']")
-    )).click()
-
-    #VGCS / VBS / REC
-    wait.until(EC.element_to_be_clickable(
-        (By.CSS_SELECTOR, "[title='VGCS / VBS / REC tracing']")
-    )).click()
-
-    wait.until(EC.element_to_be_clickable(
-        (By.CSS_SELECTOR, "[title='Download in CSV format']")
-    )).click()
-
-    #HO
-    wait.until(EC.element_to_be_clickable(
-        (By.CSS_SELECTOR, "[title='HO tracing']")
-    )).click()
-
-    wait.until(EC.element_to_be_clickable(
-        (By.CSS_SELECTOR, "[title='Download in CSV format']")
-    )).click()
-
-    #Subscriber Matrix
-    wait.until(EC.element_to_be_clickable(
-        (By.CSS_SELECTOR, "[title='Subscriber Matrix']")
-    )).click()
-
-    wait.until(EC.element_to_be_clickable(
-        (By.CSS_SELECTOR, "[title='Download in CSV format']")
-    )).click()
-
-    #HDLC Frame Error
-    wait.until(EC.element_to_be_clickable(
-        (By.CSS_SELECTOR, "[title='HDLC Frame Error tracing']")
-    )).click()
-
-    wait.until(EC.element_to_be_clickable(
-        (By.CSS_SELECTOR, "[title='Download in CSV format']")
-    )).click()
-
-    time.sleep(10)
+    time.sleep(5)
     driver.quit()
 
 SOURCE_FOLDER = Path(__file__).resolve().parent.parent.parent / "datasets" / "expandium"
@@ -183,99 +149,101 @@ def _rename_columns(df: pd.DataFrame, path: Path):
     df = df.copy()
     name = path.name.lower()
 
+    df.columns = df.columns.str.strip().str.lower()
+
     if "etcs" in name and "call" in name:
         column_map = {
-            "Start Time": "start_time", "Stop Time": "stop_time",
-            "Call Setup Duration (ms)": "call_setup_duration",
-            "Transaction Duration (ms)": "transaction_duration",
-            "ETCS Baseline": "etcs_baseline", "System Version": "system_version",
-            "NID_ENGINE": "nid_engine", "NID_OPERATIONAL": "nid_operational",
-            "IMSI": "imsi", "MSISDN": "msisdn", "IMEI": "imei",
-            "Calling Number": "calling_number", "Called Number": "called_number",
-            "GSM-R Connected": "gsmr_connected", "ETCS Connected": "etcs_connected",
-            "Start NID_C": "start_nid_c", "Start NID_BG": "start_nid_bg",
-            "Stop NID_C": "stop_nid_c", "Stop NID_BG": "stop_nid_bg",
-            "Stop D_LRBG": "stop_d_lrbg", "Root failure": "root_failure",
-            "End Domain": "end_domain", "Protocol Layer": "protocol_layer",
-            "End Event": "end_event", "End Cause": "end_cause",
-            "ISDN Port Probe": "isdn_port_probe",
+            "start time": "start_time", "stop time": "stop_time",
+            "call setup duration (ms)": "call_setup_duration",
+            "transaction duration (ms)": "transaction_duration",
+            "etcs baseline": "etcs_baseline", "system version": "system_version",
+            "nid_engine": "nid_engine", "nid_operational": "nid_operational",
+            "imsi": "imsi", "msisdn": "msisdn", "imei": "imei",
+            "calling number": "calling_number", "called number": "called_number",
+            "gsm-r connected": "gsmr_connected", "etcs connected": "etcs_connected",
+            "start nid_c": "start_nid_c", "start nid_bg": "start_nid_bg",
+            "stop nid_c": "stop_nid_c", "stop nid_bg": "stop_nid_bg",
+            "stop d_lrbg": "stop_d_lrbg", "root failure": "root_failure",
+            "end domain": "end_domain", "protocol layer": "protocol_layer",
+            "end event": "end_event", "end cause": "end_cause",
+            "isdn port probe": "isdn_port_probe",
         }
-    
+
     elif "transaction" in name:
         column_map = {
-            "Start Time": "start_time", "Stop Time": "stop_time",
-            "Call Setup Duration (ms)": "call_setup_duration",
-            "Establishment Delay (ms)": "establishment_delay",
-            "Transaction Duration (ms)": "transaction_duration",
-            "Start LAC": "start_lac", "Start CI": "start_ci",
-            "Stop LAC": "stop_lac", "Stop CI": "stop_ci",
-            "NID_ENGINE": "nid_engine", "NID_OPERATIONAL": "nid_operational",
-            "TMSI": "tmsi", "Reallocated TMSI": "reallocated_tmsi",
-            "IMSI": "imsi", "MSISDN": "msisdn", "IMEI": "imei",
-            "Calling Number": "calling_number", "Called Number": "called_number",
-            "Dest. Route Add.": "dest_route_address",
-            "Functional Number": "functional_number",
-            "Functional Number CT": "functional_number_ct",
-            "Direction": "direction", "Transaction Type": "transaction_type",
-            "Transaction Subtype": "transaction_subtype",
-            "Application Type": "application_type",
-            "GSM-R Connected": "gsmr_connected", "Priority": "priority",
-            "Root failure": "root_failure", "Protocol Layer": "protocol_layer",
-            "End Event": "end_event", "End Cause": "end_cause",
-            "gb_ciphering_algo": "gb_ciphering_algo",
+            "start time": "start_time", "stop time": "stop_time",
+            "call setup duration (ms)": "call_setup_duration",
+            "establishment delay (ms)": "establishment_delay",
+            "transaction duration (ms)": "transaction_duration",
+            "start lac": "start_lac", "start ci": "start_ci",
+            "stop lac": "stop_lac", "stop ci": "stop_ci",
+            "nid_engine": "nid_engine", "nid_operational": "nid_operational",
+            "tmsi": "tmsi", "reallocated tmsi": "reallocated_tmsi",
+            "imsi": "imsi", "msisdn": "msisdn", "imei": "imei",
+            "calling number": "calling_number", "called number": "called_number",
+            "dest. route add.": "dest_route_address",
+            "functional number": "functional_number",
+            "functional number ct": "functional_number_ct",
+            "direction": "direction", "transaction type": "transaction_type",
+            "transaction subtype": "transaction_subtype",
+            "application type": "application_type",
+            "gsm-r connected": "gsmr_connected", "priority": "priority",
+            "root failure": "root_failure", "protocol layer": "protocol_layer",
+            "end event": "end_event", "end cause": "end_cause",
+            "gb ciphering algo": "gb_ciphering_algo",
         }
 
     elif "vgcs" in name and "vbs" in name:
         column_map = {
-            "Start Time": "start_time", "Stop Time": "stop_time",
-            "Application Type": "application_type",
-            "Transaction Type": "transaction_type",
-            "Transaction Subtype": "transaction_subtype",
-            "Functional Number": "functional_number",
-            "IMSI": "imsi", "TMSI": "tmsi", "MSISDN": "msisdn",
-            "GID": "gid", "AREA": "area", "GCR": "gcr", "Priority": "priority",
-            "Start LAC": "start_lac", "Start CI": "start_ci",
-            "Establishment Delay (ms)": "establishment_delay",
-            "SCCP Success Rate": "sccp_success_rate",
-            "Cell Success Rate": "cell_success_rate",
-            "Dispatcher Success Rate": "dispatcher_success_rate",
-            "End User": "end_user", "VGCS Duration (ms)": "vgcs_duration",
+            "start time": "start_time", "stop time": "stop_time",
+            "application type": "application_type",
+            "transaction type": "transaction_type",
+            "transaction subtype": "transaction_subtype",
+            "functional number": "functional_number",
+            "imsi": "imsi", "tmsi": "tmsi", "msisdn": "msisdn",
+            "gid": "gid", "area": "area", "gcr": "gcr", "priority": "priority",
+            "start lac": "start_lac", "start ci": "start_ci",
+            "establishment delay (ms)": "establishment_delay",
+            "sccp success rate": "sccp_success_rate",
+            "cell success rate": "cell_success_rate",
+            "dispatcher success rate": "dispatcher_success_rate",
+            "end user": "end_user", "vgcs duration (ms)": "vgcs_duration",
         }
 
     elif "ho" in name:
         column_map = {
-            "Start Time": "start_time", "Stop Time": "stop_time",
-            "HO Start Time": "ho_start_time", "HO Duration": "ho_duration",
-            "Src LAC": "src_lac", "Src CI": "src_ci",
-            "Trg LAC": "trg_lac", "Trg CI": "trg_ci",
-            "IMSI": "imsi", "MSISDN": "msisdn", "IMEI": "imei",
-            "MS Power": "ms_power", "Call Type": "call_type", "HO Type": "ho_type",
-            "HO End Event": "ho_end_event", "HO End Cause": "ho_end_cause",
-            "HO Cause": "ho_cause",
+            "start time": "start_time", "stop time": "stop_time",
+            "ho start time": "ho_start_time", "ho duration": "ho_duration",
+            "src lac": "src_lac", "src ci": "src_ci",
+            "trg lac": "trg_lac", "trg ci": "trg_ci",
+            "imsi": "imsi", "msisdn": "msisdn", "imei": "imei",
+            "ms power": "ms_power", "call type": "call_type", "ho type": "ho_type",
+            "ho end event": "ho_end_event", "ho end cause": "ho_end_cause",
+            "ho cause": "ho_cause",
         }
-    
+
     elif "subscriber" in name and "matrix" in name:
         column_map = {
-            "IMSI": "imsi", "Last IMSI Time": "last_imsi_time",
-            "MSISDN": "msisdn", "Last MSISDN Time": "last_msisdn_time",
-            "NID_ENGINE": "nid_engine", "Last NID_ENGINE Time": "last_nid_engine_time",
-            "FN CT3": "fn_ct3", "Last FN CT3 Time": "last_fn_ct3_time",
-            "FN CT4": "fn_ct4", "Last FN CT4 Time": "last_fn_ct4_time",
+            "imsi": "imsi", "last imsi time": "last_imsi_time",
+            "msisdn": "msisdn", "last msisdn time": "last_msisdn_time",
+            "nid_engine": "nid_engine", "last nid_engine time": "last_nid_engine_time",
+            "fn ct3": "fn_ct3", "last fn ct3 time": "last_fn_ct3_time",
+            "fn ct4": "fn_ct4", "last fn ct4 time": "last_fn_ct4_time",
         }
 
     elif "hdlc" in name and "frame" in name:
         column_map = {
-            "Start Time": "start_time", "Stop Time": "stop_time",
-            "Frame Error Time": "frame_error_time", "ISDN Port Probe": "isdn_port_probe",
-            "NID_ENGINE": "nid_engine", "NID_OPERATIONAL": "nid_operational",
-            "Calling Number": "calling_number", "Called Number": "called_number",
-            "Last NID_C": "last_nid_c", "Last NID_BG": "last_nid_bg",
-            "M Level": "m_level", "M_MODE": "m_mode", "Direction": "direction",
-            "Frame Error": "frame_error",
-            "Frame Error Retransmission Count": "frame_error_retransmission_count",
+            "start time": "start_time", "stop time": "stop_time",
+            "frame error time": "frame_error_time", "isdn port probe": "isdn_port_probe",
+            "nid_engine": "nid_engine", "nid_operational": "nid_operational",
+            "calling number": "calling_number", "called number": "called_number",
+            "last nid_c": "last_nid_c", "last nid_bg": "last_nid_bg",
+            "m level": "m_level", "m_mode": "m_mode", "direction": "direction",
+            "frame error": "frame_error",
+            "frame error retransmission count": "frame_error_retransmission_count",
         }
     
-    df = df.rename(columns=lambda x: column_map.get(x.strip(), x.strip()))
+    df = df.rename(columns=lambda x: column_map.get(x, x))
     return df
 
 def _correct_float_columns(df: pd.DataFrame) -> pd.DataFrame:
