@@ -35,6 +35,7 @@ def _add_metadata(df: pd.DataFrame, batch_id: str, source_file: str, file_hash: 
 
 def _rename_columns(df: pd.DataFrame) -> pd.DataFrame:
     df = df.copy()
+    df.columns = df.columns.str.strip()
 
     column_map = {
         "N° ordre": "nombre_ordre",
@@ -76,6 +77,14 @@ def _rename_columns(df: pd.DataFrame) -> pd.DataFrame:
     df.rename(columns=column_map, inplace=True)
     return df
 
+def _sanitize_columns(df: pd.DataFrame) -> pd.DataFrame:
+    df = df.copy()
+    df.columns = [
+        re.sub(r'[^a-zA-Z0-9_]', '_', col).strip('_').lower()
+        for col in df.columns
+    ]
+    return df
+
 def _data_load(df: pd.DataFrame) -> int:
     engine = get_engine("bronze")
     df.to_sql(SP_ERTMS_DECONNIXIONS_TABLE, engine, if_exists="append", index=False, method="multi")
@@ -106,6 +115,7 @@ def run(batch_id:str, source_file: str = "sharepoint") -> SharepointStats:
             df = pd.read_excel(path, sheet_name='Data')
             df = _rename_columns(df)
             df = _add_metadata(df, batch_id=batch_id, source_file=path.name, file_hash=file_hash)
+            df = _sanitize_columns(df)
             rows = _data_load(df)
 
             record_file_result(
