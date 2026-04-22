@@ -17,7 +17,7 @@ CREATE TABLE bronze.ingest_runs(
 
 DROP TABLE IF EXISTS bronze.ingest_files;
 CREATE TABLE bronze.ingest_files(
-	file_id INT PRIMARY KEY,
+	file_id TEXT PRIMARY KEY,
 	batch_id VARCHAR(100) REFERENCES bronze.ingest_runs(batch_id),
 	source_system VARCHAR(100),
 	processed_at TIMESTAMP WITHOUT TIME ZONE,
@@ -243,27 +243,4 @@ CREATE TABLE bronze.sp_ertms_disconnects (
     _ingested_at TIMESTAMP,
     _row_num INT,
     _file_hash TEXT
-);
-
-DROP TABLE IF EXISTS bronze.ingest_runs;
-CREATE TABLE bronze.ingest_runs(
-	batch_id VARCHAR(100) PRIMARY KEY,
-	start_time TIMESTAMP WITHOUT TIME ZONE,
-	end_time TIMESTAMP WITHOUT TIME ZONE,
-	status VARCHAR(100),
-	total_files INT,
-	total_rows INT,
-	error_message TEXT
-);
-
-DROP TABLE IF EXISTS bronze.ingest_files;
-CREATE TABLE bronze.ingest_files(
-	file_id TEXT PRIMARY KEY,
-	batch_id VARCHAR(100) REFERENCES bronze.ingest_runs(batch_id),
-	source_system VARCHAR(100),
-	processed_at TIMESTAMP WITHOUT TIME ZONE,
-	filename VARCHAR(255),
-	row_count INT,
-	status VARCHAR(100),
-	error_message TEXT
 );
