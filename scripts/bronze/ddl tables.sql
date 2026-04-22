@@ -258,7 +258,7 @@ CREATE TABLE bronze.ingest_runs(
 
 DROP TABLE IF EXISTS bronze.ingest_files;
 CREATE TABLE bronze.ingest_files(
-	file_id INT PRIMARY KEY,
+	file_id TEXT PRIMARY KEY,
 	batch_id VARCHAR(100) REFERENCES bronze.ingest_runs(batch_id),
 	source_system VARCHAR(100),
 	processed_at TIMESTAMP WITHOUT TIME ZONE,
