@@ -17,7 +17,7 @@ CREATE TABLE silver.ingest_runs(
 
 DROP TABLE IF EXISTS silver.ingest_files;
 CREATE TABLE silver.ingest_files(
-	file_id INT PRIMARY KEY,
+	file_id TEXT PRIMARY KEY,
 	batch_id VARCHAR(100) REFERENCES silver.ingest_runs(batch_id),
 	source_system VARCHAR(100),
 	processed_at TIMESTAMP WITHOUT TIME ZONE,
