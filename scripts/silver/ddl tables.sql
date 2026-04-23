@@ -4,7 +4,7 @@ tracking the runs with it's primary key, time of start and end, status, and how 
 which runs they were in, source syteme (like expandium or sharepoint), processed at, row counts and it status
 */
 
-DROP TABLE IF EXISTS silver.ingest_runs;
+DROP TABLE IF EXISTS silver.ingest_runs CASCADE;
 CREATE TABLE silver.ingest_runs(
 	batch_id VARCHAR(100) PRIMARY KEY,
 	start_time TIMESTAMP WITHOUT TIME ZONE,
@@ -29,26 +29,26 @@ CREATE TABLE silver.ingest_files(
 
 DROP TABLE IF EXISTS silver.exp_etcs_call;
 CREATE TABLE silver.exp_etcs_call(
-    start_time TIMESTAMP DEFAULT NOW(),
-    stop_time VARCHAR(50),
-    call_setup_duration VARCHAR(50),
-    transaction_duration VARCHAR(50),                    
+    start_time TIMESTAMP,
+    stop_time TIMESTAMP,
+    call_setup_duration INTEGER,
+    transaction_duration INTEGER,                    
     etcs_baseline SMALLINT,
     system_version DECIMAL(3,1),
-    nid_engine INT,
-    nid_operational INT,
+    nid_engine INTEGER,
+    nid_operational INTEGER,
     imsi BIGINT,
     msisdn BIGINT,                         
     imei BIGINT,
     calling_number BIGINT,
-    called_number INT,
+    called_number INTEGER,
     gsmr_connected VARCHAR(50),
     etcs_connected VARCHAR(50),
-    start_nid_c INT,
-    start_nid_bg INT,
-    stop_nid_c INT,
-    stop_nid_bg INT,
-    stop_d_lrbg INT,
+    start_nid_c INTEGER,
+    start_nid_bg INTEGER,
+    stop_nid_c INTEGER,
+    stop_nid_bg INTEGER,
+    stop_d_lrbg INTEGER,
     root_failure VARCHAR(50),
     end_domain VARCHAR(50),
     protocol_layer VARCHAR(50),
@@ -58,13 +58,14 @@ CREATE TABLE silver.exp_etcs_call(
 	_batch_id TEXT REFERENCES silver.ingest_runs(batch_id),  
 	_source_file TEXT,
     _ingested_at TIMESTAMP,
+	_silver_loaded_at TIMESTAMP,
     _row_num INT,
     _file_hash TEXT
 );
 
 DROP TABLE IF EXISTS silver.exp_hdlc_frame_errors;
 CREATE TABLE silver.exp_hdlc_frame_errors(
-    start_time TIMESTAMP DEFAULT NOW(),
+    start_time TIMESTAMP,
     stop_time TIMESTAMP,
     frame_error_time TIMESTAMP,
     isdn_port_probe VARCHAR(255),
@@ -82,6 +83,7 @@ CREATE TABLE silver.exp_hdlc_frame_errors(
 	_batch_id TEXT REFERENCES silver.ingest_runs(batch_id),  
 	_source_file TEXT,
     _ingested_at TIMESTAMP,
+	_silver_loaded_at TIMESTAMP,
     _row_num INT,
     _file_hash TEXT
 );
@@ -92,7 +94,7 @@ CREATE TABLE silver.exp_subscriber_matrix(
     last_imsi_time TIMESTAMP,
     msisdn BIGINT,
     last_msisdn_time TIMESTAMP,
-    nid_engine INT,
+    nid_engine BIGINT,
     last_nid_engine_time TIMESTAMP,
     fn_ct3 BIGINT,
     last_fn_ct3_time TIMESTAMP,
@@ -101,13 +103,14 @@ CREATE TABLE silver.exp_subscriber_matrix(
 	_batch_id TEXT REFERENCES silver.ingest_runs(batch_id),  
 	_source_file TEXT,
     _ingested_at TIMESTAMP,
+	_silver_loaded_at TIMESTAMP,
     _row_num INT,
     _file_hash TEXT
 );
 
 DROP TABLE IF EXISTS silver.exp_ho_tracing;
 CREATE TABLE silver.exp_ho_tracing(
-    start_time TIMESTAMP DEFAULT NOW(),
+    start_time TIMESTAMP,
     stop_time TIMESTAMP,
     ho_start_time TIMESTAMP,
     ho_duration DECIMAL(10,3),
@@ -127,13 +130,14 @@ CREATE TABLE silver.exp_ho_tracing(
 	_batch_id TEXT REFERENCES silver.ingest_runs(batch_id),  
 	_source_file TEXT,
     _ingested_at TIMESTAMP,
+	_silver_loaded_at TIMESTAMP,
     _row_num INT,
     _file_hash TEXT
 );
 
 DROP TABLE IF EXISTS silver.exp_vgcs_vbs_rec_tracing;
 CREATE TABLE silver.exp_vgcs_vbs_rec_tracing(
-    start_time TIMESTAMP DEFAULT NOW(),
+    start_time TIMESTAMP,
     stop_time TIMESTAMP,
     application_type VARCHAR(100),
     transaction_type VARCHAR(50),
@@ -142,21 +146,22 @@ CREATE TABLE silver.exp_vgcs_vbs_rec_tracing(
     imsi BIGINT,
     tmsi VARCHAR(20),
     msisdn BIGINT,
-    gid INT,
-    area INT,
+    gid INTEGER,
+    area INTEGER,
     gcr BIGINT,
     priority VARCHAR(20),
-    start_lac INT,
-    start_ci INT,
-    establishment_delay VARCHAR(50),
-    sccp_success_rate VARCHAR(20),
-    cell_success_rate VARCHAR(20),
-    dispatcher_success_rate VARCHAR(20),
+    start_lac INTEGER,
+    start_ci INTEGER,
+    establishment_delay INTEGER,
+    sccp_success_rate INTEGER,
+    cell_success_rate INTEGER,
+    dispatcher_success_rate INTEGER,
     end_user VARCHAR(100),
-    vgcs_duration VARCHAR(50),
+    vgcs_duration INTEGER,
 	_batch_id TEXT REFERENCES silver.ingest_runs(batch_id),  
 	_source_file TEXT,
     _ingested_at TIMESTAMP,
+	_silver_loaded_at TIMESTAMP,
     _row_num INT,
     _file_hash TEXT
 );
@@ -164,25 +169,25 @@ CREATE TABLE silver.exp_vgcs_vbs_rec_tracing(
 DROP TABLE IF EXISTS silver.exp_transaction_tracing;
 CREATE TABLE silver.exp_transaction_tracing(
     start_time TIMESTAMP DEFAULT NOW(),
-    stop_time VARCHAR(30),
-    call_setup_duration VARCHAR(50),
-    establishment_delay VARCHAR(50),
-    transaction_duration VARCHAR(50),
-    start_lac INT,
-    start_ci INT,
-    stop_lac INT,
-    stop_ci INT,
-    nid_engine INT,
-    nid_operational INT,
-    tmsi VARCHAR(20),
-    reallocated_tmsi VARCHAR(20),
+    stop_time INTEGER,
+    call_setup_duration INTEGER,
+    establishment_delay INTEGER,
+    transaction_duration INTEGER,
+    start_lac INTEGER,
+    start_ci INTEGER,
+    stop_lac INTEGER,
+    stop_ci INTEGER,
+    nid_engine INTEGER,
+    nid_operational INTEGER,
+    tmsi VARCHAR(30),
+    reallocated_tmsi VARCHAR(30),
     imsi BIGINT,
     msisdn BIGINT,
     imei BIGINT,
     calling_number BIGINT,
     called_number BIGINT,
     dest_route_address VARCHAR(100),
-    functional_number VARCHAR(50),
+    functional_number INTEGER,
     functional_number_ct VARCHAR(100),
     direction VARCHAR(50),
     transaction_type VARCHAR(50),
@@ -198,6 +203,7 @@ CREATE TABLE silver.exp_transaction_tracing(
 	_batch_id TEXT REFERENCES silver.ingest_runs(batch_id),  
 	_source_file TEXT,
     _ingested_at TIMESTAMP,
+	_silver_loaded_at TIMESTAMP,
     _row_num INT,
     _file_hash TEXT
 );
@@ -214,8 +220,8 @@ CREATE TABLE silver.sp_ertms_disconnects (
     mrm VARCHAR(50),
     imei BIGINT,
     sens VARCHAR(50),
-    km VARCHAR(50),
-    intervalle VARCHAR(100),
+    km DECIMAL(8,3),
+    intervalle DECIMAL(8,3),
     niveau_etcs VARCHAR(20),
     evenement VARCHAR(255),
     cause_racine TEXT,
@@ -241,6 +247,7 @@ CREATE TABLE silver.sp_ertms_disconnects (
 	_batch_id TEXT REFERENCES silver.ingest_runs(batch_id),  
 	_source_file TEXT,
     _ingested_at TIMESTAMP,
+	_silver_loaded_at TIMESTAMP,
     _row_num INT,
     _file_hash TEXT
 );
