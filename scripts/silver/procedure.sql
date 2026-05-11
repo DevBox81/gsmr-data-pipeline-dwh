@@ -2,7 +2,7 @@ CREATE OR REPLACE PROCEDURE silver.load_silver()
 LANGUAGE plpgsql
 AS $$
 DECLARE
-	v_start TIMESTAMP := clock_timestamp()
+	v_start TIMESTAMP := clock_timestamp();
 BEGIN
 
 	RAISE NOTICE '======================================================';
@@ -158,7 +158,7 @@ BEGIN
 
     -- ------------------------------------------------------------------
     -- TABLE 3 : exp_vgcs_vbs_rec_tracing
-    -- Dedup key : (functional_number, start_time)
+    -- Dedup key : (functional_number, start_time, gid)
     --   Note: imsi is NULL in group calls so we use functional_number instead
     -- Type fixes :
     --   establishment_delay     VARCHAR → INTEGER ms
@@ -233,7 +233,7 @@ BEGIN
 
     -- ------------------------------------------------------------------
     -- TABLE 4 : exp_ho_tracing
-    -- Dedup key : (imsi, ho_start_time)
+    -- Dedup key : (imsi, ho_start_time, src_lac, src_ci)
     -- No type changes — ho_duration already DECIMAL(10,3) in Bronze
     -- ------------------------------------------------------------------
     RAISE NOTICE '[4/7] Loading silver.exp_ho_tracing ...';
