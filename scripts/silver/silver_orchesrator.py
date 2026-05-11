@@ -1,3 +1,5 @@
+#this code is responsable of running the procedure from the database and record the runs informations and add them to the ingest_runs table
+
 import sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
