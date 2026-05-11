@@ -4,7 +4,7 @@ tracking the runs with it's primary key, time of start and end, status, and how 
 which runs they were in, source syteme (like expandium or sharepoint), processed at, row counts and it status
 */
 
-DROP TABLE IF EXISTS bronze.ingest_runs;
+DROP TABLE IF EXISTS bronze.ingest_runs CASCADE;
 CREATE TABLE bronze.ingest_runs(
 	batch_id VARCHAR(100) PRIMARY KEY,
 	start_time TIMESTAMP WITHOUT TIME ZONE,
@@ -15,9 +15,9 @@ CREATE TABLE bronze.ingest_runs(
 	error_message TEXT
 );
 
-DROP TABLE IF EXISTS bronze.ingest_files;
+DROP TABLE IF EXISTS bronze.ingest_files CASCADE;
 CREATE TABLE bronze.ingest_files(
-	file_id TEXT,
+	file_id TEXT PRIMARY KEY, 
 	batch_id VARCHAR(100) REFERENCES bronze.ingest_runs(batch_id),
 	source_system VARCHAR(100),
 	processed_at TIMESTAMP WITHOUT TIME ZONE,
@@ -27,7 +27,7 @@ CREATE TABLE bronze.ingest_files(
 	error_message TEXT
 );
 
-DROP TABLE IF EXISTS bronze.exp_etcs_call;
+DROP TABLE IF EXISTS bronze.exp_etcs_call CASCADE;
 CREATE TABLE bronze.exp_etcs_call(
     start_time TIMESTAMP,
     stop_time VARCHAR(50),
@@ -62,7 +62,7 @@ CREATE TABLE bronze.exp_etcs_call(
     _file_hash TEXT
 );
 
-DROP TABLE IF EXISTS bronze.exp_hdlc_frame_errors;
+DROP TABLE IF EXISTS bronze.exp_hdlc_frame_errors CASCADE;
 CREATE TABLE bronze.exp_hdlc_frame_errors(
     start_time TIMESTAMP,
     stop_time TIMESTAMP,
@@ -86,7 +86,7 @@ CREATE TABLE bronze.exp_hdlc_frame_errors(
     _file_hash TEXT
 );
 
-DROP TABLE IF EXISTS bronze.exp_subscriber_matrix;
+DROP TABLE IF EXISTS bronze.exp_subscriber_matrix CASCADE;
 CREATE TABLE bronze.exp_subscriber_matrix(
     imsi BIGINT,
     last_imsi_time TIMESTAMP,
@@ -105,7 +105,7 @@ CREATE TABLE bronze.exp_subscriber_matrix(
     _file_hash TEXT
 );
 
-DROP TABLE IF EXISTS bronze.exp_ho_tracing;
+DROP TABLE IF EXISTS bronze.exp_ho_tracing CASCADE;
 CREATE TABLE bronze.exp_ho_tracing(
     start_time TIMESTAMP,
     stop_time TIMESTAMP,
@@ -131,7 +131,7 @@ CREATE TABLE bronze.exp_ho_tracing(
     _file_hash TEXT
 );
 
-DROP TABLE IF EXISTS bronze.exp_vgcs_vbs_rec_tracing;
+DROP TABLE IF EXISTS bronze.exp_vgcs_vbs_rec_tracing CASCADE;
 CREATE TABLE bronze.exp_vgcs_vbs_rec_tracing(
     start_time TIMESTAMP,
     stop_time TIMESTAMP,
@@ -161,7 +161,7 @@ CREATE TABLE bronze.exp_vgcs_vbs_rec_tracing(
     _file_hash TEXT
 );
 
-DROP TABLE IF EXISTS bronze.exp_transaction_tracing;
+DROP TABLE IF EXISTS bronze.exp_transaction_tracing CASCADE;
 CREATE TABLE bronze.exp_transaction_tracing(
     start_time TIMESTAMP,
     stop_time VARCHAR(30),
@@ -202,14 +202,14 @@ CREATE TABLE bronze.exp_transaction_tracing(
     _file_hash TEXT
 );
 
-DROP TABLE IF EXISTS bronze.sp_ertms_disconnects;
+DROP TABLE IF EXISTS bronze.sp_ertms_disconnects CASCADE;
 CREATE TABLE bronze.sp_ertms_disconnects (
     nombre_ordre INT,
     derniere_7_jours BOOLEAN,
     date DATE,
     heure TIME,
     numero_train INT,
-    rame VARCHAR(50),
+    rame INTEGER,
     motrice_cab VARCHAR(50),
     mrm VARCHAR(50),
     imei BIGINT,
