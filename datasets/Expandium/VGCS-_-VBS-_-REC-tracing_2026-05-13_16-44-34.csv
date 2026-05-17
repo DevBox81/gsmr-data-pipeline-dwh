@@ -1,0 +1,2 @@
+﻿"sep=;"
+Start Time;Stop Time;Application Type;Transaction Type;Transaction Subtype;Functional Number;IMSI;TMSI;MSISDN;GID;AREA;GCR;Priority;Start LAC;Start CI;Establishment Delay (ms);SCCP Success Rate;Cell Success Rate;Dispatcher Success Rate;End User;VGCS Duration (ms)
