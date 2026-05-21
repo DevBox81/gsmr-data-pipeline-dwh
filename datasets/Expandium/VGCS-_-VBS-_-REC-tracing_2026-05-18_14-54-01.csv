@@ -1,7 +1,0 @@
-﻿"sep=;"
-Start Time;Stop Time;Application Type;Transaction Type;Transaction Subtype;Functional Number;IMSI;TMSI;MSISDN;GID;AREA;GCR;Priority;Start LAC;Start CI;Establishment Delay (ms);SCCP Success Rate;Cell Success Rate;Dispatcher Success Rate;End User;VGCS Duration (ms)
-2026-05-18 13:49:31.674;2026-05-18 13:49:36.205;Voice Group Call (VGCS);VGCS/VBS/REC;;;604070051702163;;212799993163;299;;;Level 4;39335;686;;0 / 0;0 / 0;0 / 0;Fix Dispatcher;0ms
-2026-05-18 13:49:14.985;2026-05-18 13:49:17.389;Voice Group Call (VGCS);VGCS/VBS/REC;;;604070051702163;;212799993163;299;;;Level 4;39335;686;;0 / 0;0 / 0;0 / 0;Fix Dispatcher;0ms
-2026-05-18 13:48:13.535;2026-05-18 13:48:15.695;Voice Group Call (VGCS);VGCS/VBS/REC;;;604070051702163;;212799993163;299;;;Level 4;39335;686;;0 / 0;0 / 0;0 / 0;Fix Dispatcher;0ms
-2026-05-18 09:05:55.061;2026-05-18 09:14:46.774;Voice Group Call (VGCS);VGCS/VBS/REC;MSC Control;;604070051705130;;212799996130;200;20601;20601200;Level 2;39376;114;2s 993ms;3 / 3;2 / 2;1 / 3;Fix Dispatcher;21s 341ms
-2026-05-18 08:32:35.906;2026-05-18 08:32:46.925;Voice Group Call (VGCS);VGCS/VBS/REC;MSC Control;;604070051700791;;212799990391;200;12636;12636200;Level 2;39332;636;2s 793ms;3 / 3;2 / 2;1 / 2;MS Term Req (CAB Radio...);2s 710ms
