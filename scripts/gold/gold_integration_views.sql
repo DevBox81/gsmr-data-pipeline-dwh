@@ -1,3 +1,6 @@
+/**
+this is the sql code that create the views of the gold layer you just run it once and your done
+**/
 CREATE OR REPLACE VIEW gold.dim_subscriber AS
 WITH
 all_subscriber AS (
