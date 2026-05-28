@@ -207,7 +207,7 @@ run the run_pipline.bat that runs the whole pipline
 with a scheduler for every 1 hour
 and error handeling when bronze is failed, silver doesn't run
 ```
-#### Step 6.1: Configure The Scheduler
+#### Step 6.1: Set up Windows Task Scheduler (runs automatically on PC startup)
 ```
 1. Open Task Scheduler (search in Start menu)
 2. Click Create Basic Task on the right panel
