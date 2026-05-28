@@ -200,6 +200,36 @@ psql -U postgres -d gsmr_dwh -f ddl_tables.sql
 python silver_orchestrator.py
 ```
 
+### Step 6: run the pipline
+
+```
+run the run_pipline.bat that runs the whole pipline
+with a scheduler for every 1 hour
+and error handeling when bronze is failed, silver doesn't run
+```
+#### Step 6.1: Configure The Scheduler
+```
+1. Open Task Scheduler (search in Start menu)
+2. Click Create Basic Task on the right panel
+3. Fill in:
+   Name: GSM-R Pipeline
+   Trigger: When the computer starts
+4. Action: Start a program
+5. Program: browse to your run_pipeline.bat
+6. Start in: your project root folder path (e.g. C:\Projects\gsmr-data-pipeline-dwh)
+Click Finish
+
+7. Right-click the new task → Properties → General tab → check "Run whether user is logged on or not"
+```
+
+### Step 7: Power BI report
+
+```
+connect power bi to the postgres sql
+and click the refersh button in power bi in menu bar
+that gets data from the database
+```
+
 **Expected output:**
 ```
 ============================================================
