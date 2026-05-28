@@ -45,7 +45,7 @@ This project centralizes, automates, and standardizes all GSM-R data into a **un
 
 ### Medallion Layers
 
-![MEDALLION ARCHITECTURE](docs/DATA_ARCHITECTURE.png)
+![MEDALLION ARCHITECTURE](docs/DATA%20ARCHITECTURE.png)
 
 
 ### Data Flow
