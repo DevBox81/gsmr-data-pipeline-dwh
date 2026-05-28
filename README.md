@@ -45,8 +45,13 @@ This project centralizes, automates, and standardizes all GSM-R data into a **un
 
 ### Medallion Layers
 
+Medallion Layers
 <div align="center">
   <img src="docs/DATA_ARCHITECTURE.png" alt="Medallion Architecture - Bronze/Silver/Gold Layers" width="900">
+</div>
+Data Flow
+<div align="center">
+  <img src="docs/DATA_FLOW.png" alt="Data Flow - Sources to Warehouse to BI Tools" width="900">
 </div>
 
 ### Data Flow
