@@ -132,7 +132,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--interval-minutes",
         type=int,
-        default=1
+        default=60
     )
 
     parser.add_argument(
