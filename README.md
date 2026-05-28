@@ -42,58 +42,13 @@ This project centralizes, automates, and standardizes all GSM-R data into a **un
 ---
 
 ## 🏗️ Architecture
+<img width="922" height="501" alt="DATA ARCHITECTURE" src="https://github.com/user-attachments/assets/00dc4765-fbe5-44bd-b3ff-73f0c35adbd5" />
 
 ### Medallion Layers
-
-Medallion Layers
-<div align="center">
-  <img src="docs/DATA_ARCHITECTURE.png" alt="Medallion Architecture - Bronze/Silver/Gold Layers" width="900">
-</div>
-Data Flow
-<div align="center">
-  <img src="docs/DATA_FLOW.png" alt="Data Flow - Sources to Warehouse to BI Tools" width="900">
-</div>
+<img width="731" height="621" alt="Layers Design" src="https://github.com/user-attachments/assets/5bad00e3-f6eb-4a6d-971d-7d3f42d47c47" />
 
 ### Data Flow
-
-```
-Expandium (Selenium)     SharePoint (Graph API)     Local Files
-        │                        │                         │
-        └────────────────────────┴─────────────────────────┘
-                                 │
-                    ┌────────────▼────────────┐
-                    │   BRONZE Layer          │
-                    │   (Raw, Full Fidelity)  │
-                    │   - Full Load / Upsert  │
-                    │   - All source columns  │
-                    │   - Metadata tracking   │
-                    └────────────┬────────────┘
-                                 │
-                    ┌────────────▼────────────┐
-                    │   SILVER Layer          │
-                    │   (Cleaned & Modeled)   │
-                    │   - Type coercion       │
-                    │   - Deduplication       │
-                    │   - Standardization     │
-                    │   - Derived columns     │
-                    └────────────┬────────────┘
-                                 │
-                    ┌────────────▼────────────┐
-                    │   GOLD Layer            │
-                    │   (Business-Ready)      │
-                    │   - Fact tables         │
-                    │   - Dimension tables    │
-                    │   - Aggregations        │
-                    │   - KPIs & metrics      │
-                    └────────────┬────────────┘
-                                 │
-                    ┌────────────▼────────────┐
-                    │  BI Tools & Analytics   │
-                    │  - Dashboards           │
-                    │  - Reports              │
-                    │  - Ad-hoc queries       │
-                    └─────────────────────────┘
-```
+<img width="814" height="474" alt="Data Flow" src="https://github.com/user-attachments/assets/b88ecaa7-2589-4c00-8e4b-ab4f25a73a74" />
 
 ---
 
