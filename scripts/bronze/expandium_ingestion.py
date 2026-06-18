@@ -33,11 +33,11 @@ def auto_data_scraping():
     #login in
     wait.until(EC.presence_of_element_located(
         (By.CSS_SELECTOR, "input[placeholder='Username']")
-    )).send_keys("Démo")
+    )).send_keys("username")
 
     wait.until(EC.presence_of_element_located(
         (By.CSS_SELECTOR, "input[placeholder='Password']")
-    )).send_keys("Oncf2026@!")
+    )).send_keys("password")
 
     wait.until(EC.element_to_be_clickable(
         (By.CSS_SELECTOR, ".btn.btn-lg.btn-block.btn-success")
